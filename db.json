@@ -1,0 +1,34 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "lowdb is awesome",
+      "published": true
+    },
+    {
+      "id": 2,
+      "title": "Great",
+      "published": true
+    },
+    {
+      "id": 3,
+      "title": "New One",
+      "published": true
+    },
+    {
+      "id": 4,
+      "title": "Random",
+      "published": true
+    },
+    {
+      "id": 5,
+      "title": "Unpublished post 1",
+      "published": false
+    },
+    {
+      "id": 6,
+      "title": "Unpublished post 2",
+      "published": false
+    }
+  ]
+}
