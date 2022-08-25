@@ -21,15 +21,13 @@
           id="published"
         />
         <button class="btn btn-secondary m-3" type="submit" onclick="post()">
-          Submit
+          Create Post
         </button>
       </form>
       <button type="button" class="btn btn-primary" onclick="data()">
         Show All Data
       </button>
-      <button type="button" class="btn btn-danger" onclick="deleteAllData()">
-        Delete All Data
-      </button>
+
       <br />
       <div id="status"></div>
     </main>
@@ -45,8 +43,12 @@
         if (err) {
           console.log(err);
         } else {
-          console.log(res);
-          status.innerHTML = JSON.stringify(res.body);
+          if (res.body.length === 0) {
+            status.innerHTML = 'There are no posts to show!';
+          } else {
+            console.log(res);
+            status.innerHTML = JSON.stringify(res.body);
+          }
         }
       });
     }
@@ -71,19 +73,6 @@
             (post) =>
               `Post id: ${post.id} Title: ${post.title} - published${post.published}`
           );
-        }
-      });
-    }
-
-    function deleteAllData() {
-      const url = '/deleteAll';
-
-      superagent.get(url).end(function (err, res) {
-        if (err) {
-          console.log(err);
-          status.innerHTML = 'There is an Error!';
-        } else {
-          status.innerHTML = 'All data has been deleted successfully';
         }
       });
     }

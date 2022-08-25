@@ -15,13 +15,16 @@
         <button
           class="btn btn-secondary m-3"
           type="submit"
-          onclick="deletePost(event)"
+          onclick="deletePost()"
         >
-          Submit
+          Delete Post
         </button>
       </form>
       <button type="button" class="btn btn-primary" onclick="data()">
         Show All Data
+      </button>
+      <button type="button" class="btn btn-danger" onclick="deleteAllData()">
+        Delete All Data
       </button>
       <br />
       <div id="status"></div>
@@ -30,8 +33,7 @@
   <script type="text/javascript">
     const status = document.getElementById('status');
 
-    function deletePost(event) {
-      event.preventDefault();
+    function deletePost() {
       const id = document.getElementById('id').value;
 
       console.log(`Got the id: ${id}`);
@@ -48,12 +50,29 @@
       });
     }
 
+    function deleteAllData() {
+      const url = '/deleteAll';
+
+      superagent.get(url).end(function (err, res) {
+        if (err) {
+          console.log(err);
+          status.innerHTML = 'There is an Error!';
+        } else {
+          status.innerHTML = 'All data has been deleted';
+        }
+      });
+    }
+
     function data() {
       superagent.get('/data').end(function (err, res) {
         if (err) {
           status.innerHTML = 'There is an error!';
         } else {
-          status.innerHTML = JSON.stringify(res.body);
+          if (res.body.length === 0) {
+            status.innerHTML = 'There are no posts to show!';
+          } else {
+            status.innerHTML = JSON.stringify(res.body);
+          }
         }
       });
     }

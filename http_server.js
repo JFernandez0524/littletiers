@@ -14,7 +14,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // init the data store
-db.defaults({ posts: [] }).write();
+app.use(function (res, req, next) {
+  db.defaults({ posts: [] }).write();
+  next();
+});
 
 // list posts
 app.get('/data', function (req, res) {
