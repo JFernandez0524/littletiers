@@ -8,6 +8,7 @@
     "start": "node http_server.js",
     "server": "nodemon http_server"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kogsio/littletiers.git"
@@ -20,9 +21,10 @@
   "homepage": "https://github.com/kogsio/littletiers#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "lowdb": "^1.0.0"
+    "lowdb": "^6.0.1",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.19"
+    "nodemon": "^3.0.1"
   }
 }

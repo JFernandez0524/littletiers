@@ -66,12 +66,12 @@
           console.log(
             res.body.map(
               (post) =>
-                `Post id: ${post.id} Title: ${post.title} - published${post.published}`
+                `Post id: ${post.id} Title: ${post.title} - published: ${post.published}`
             )
           );
           status.innerHTML = res.body.map(
             (post) =>
-              `Post id: ${post.id} Title: ${post.title} - published${post.published}`
+              `Post id: ${post.id} Title: ${post.title} - published: ${post.published}`
           );
         }
       });

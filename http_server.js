@@ -1,27 +1,30 @@
 // add http server
 // -----------------------
-const express = require('express');
+
+import express from 'express';
+import morgan from 'morgan';
+import { db } from './lowdb.js';
 const app = express();
-var low = require('lowdb');
-var fs = require('lowdb/adapters/FileSync');
-var adapter = new fs('db.json');
-var db = low(adapter);
 
 // configure express to serve static files from public directory
 // ------------------------------------------------------------------
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(morgan('dev'));
 
 // init the data store
-app.use(function (res, req, next) {
-  db.defaults({ posts: [] }).write();
+app.use(async function (res, req, next) {
+  // Read data from JSON file, this will set db.data content
+  // If JSON file doesn't exist, defaultData is used instead
+  await db.read();
+
   next();
 });
 
 // list posts
 app.get('/data', function (req, res) {
-  res.send(db.get('posts').value());
+  res.send(db.data.posts);
 });
 
 // ----------------------------------------------------
@@ -30,13 +33,16 @@ app.get('/data', function (req, res) {
 // ----------------------------------------------------
 app.get('/posts/:title/:id/:published', function (req, res) {
   const post = {
-    id: Number(req.params.id),
+    id: parseInt(req.params.id),
     title: req.params.title,
     published: req.params.published === 'true' ? true : false,
   };
-  db.get('posts').push(post).write();
-  console.log(db.get('posts').value());
-  res.send(db.get('posts').value());
+  // Edit db.json content using plain JavaScript
+  db.data.posts.push(post);
+  // Save to file
+  db.write();
+  console.log(db.data.posts);
+  res.send(db.data.posts);
 });
 
 // ----------------------------------------------------
